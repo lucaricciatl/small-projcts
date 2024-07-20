@@ -1,0 +1,4 @@
+D:/Development/accelerometer/CMakeFiles/MyProject.dir
+D:/Development/accelerometer/CMakeFiles/INSTALL.dir
+D:/Development/accelerometer/CMakeFiles/ALL_BUILD.dir
+D:/Development/accelerometer/CMakeFiles/ZERO_CHECK.dir
