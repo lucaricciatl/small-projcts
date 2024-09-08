@@ -2,6 +2,9 @@
 #include "CameraManager.hpp"
 #include <vector>
 
+namespace graphics {
+
+    using namespace raylib;
 // Constructor implementation
 CameraManager::CameraManager(const std::vector<float>& position,
                              const std::vector<float>& target,
@@ -20,36 +23,34 @@ CameraManager::CameraManager(const std::vector<float>& position,
     camera.target = {0.0f, 0.0f, 0.0f};
     camera.up = {0.0f, 1.0f, 0.0f};
   }
-  camera.fovy = fovy;        // Camera field-of-view Y
+  camera.fovy = fovy;  // Camera field-of-view Y
   Begin3D();
 }
 
 // Update camera position and target based on user input
 void CameraManager::Update(float moveSpeed, float turnSpeed) {
-    // Move the camera with WASD keys
-    if (IsKeyDown(KEY_W)) camera.position.z -= moveSpeed;
-    if (IsKeyDown(KEY_S)) camera.position.z += moveSpeed;
-    if (IsKeyDown(KEY_A)) camera.position.x -= moveSpeed;
-    if (IsKeyDown(KEY_D)) camera.position.x += moveSpeed;
-    if (IsKeyDown(KEY_E)) camera.position.y += moveSpeed;
-    if (IsKeyDown(KEY_Q)) camera.position.y -= moveSpeed;
+  // Move the camera with WASD keys
+  if (IsKeyDown(KEY_W)) camera.position.z -= moveSpeed;
+  if (IsKeyDown(KEY_S)) camera.position.z += moveSpeed;
+  if (IsKeyDown(KEY_A)) camera.position.x -= moveSpeed;
+  if (IsKeyDown(KEY_D)) camera.position.x += moveSpeed;
+  if (IsKeyDown(KEY_E)) camera.position.y += moveSpeed;
+  if (IsKeyDown(KEY_Q)) camera.position.y -= moveSpeed;
 
-    // Rotate the camera target with arrow keys
-    if (IsKeyDown(KEY_LEFT)) camera.target.x -= turnSpeed;
-    if (IsKeyDown(KEY_RIGHT)) camera.target.x += turnSpeed;
-    if (IsKeyDown(KEY_UP)) camera.target.z -= turnSpeed;
-    if (IsKeyDown(KEY_DOWN)) camera.target.z += turnSpeed;
+  // Rotate the camera target with arrow keys
+  if (IsKeyDown(KEY_LEFT)) camera.target.x -= turnSpeed;
+  if (IsKeyDown(KEY_RIGHT)) camera.target.x += turnSpeed;
+  if (IsKeyDown(KEY_UP)) camera.target.z -= turnSpeed;
+  if (IsKeyDown(KEY_DOWN)) camera.target.z += turnSpeed;
 
-    // Update the camera
-    UpdateCamera(&camera,0);
+  // Update the camera
+  UpdateCamera(&camera, 0);
 }
 
 // Begin 3D mode
-void CameraManager::Begin3D() {
-    BeginMode3D(camera);
-}
+void CameraManager::Begin3D() { BeginMode3D(camera); }
 
 // End 3D mode
-void CameraManager::End3D() {
-    EndMode3D();
-}
+void CameraManager::End3D() { EndMode3D(); }
+
+}  // namespace graphics

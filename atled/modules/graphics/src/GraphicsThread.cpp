@@ -1,25 +1,58 @@
-#include "GraphicsThread.hpp"
 #include <chrono>
-#include <thread>
 #include <iostream>
-
-// Constructor
-GraphicsThread::GraphicsThread(std::function<void()> renderFunction,
-                               unsigned int frameRate)
-    : mRenderFunction(std::move(renderFunction)),
-      mFrameRate(frameRate),
-      mRunning(true) {
-  // Start the rendering thread
-  mThread = std::thread(&GraphicsThread::RenderLoop, this);
+#include <thread>
+#include "GraphicsThread.hpp"
+#include "windowManager.hpp"
+#include "PolyLine2D.hpp"
+namespace {
+constexpr unsigned int defaultFramerate = 30;
 }
 
-// Destructor
+namespace graphics {
+
+void MyRenderFunction(const std::shared_ptr<graphics::ContextManager>& aContext) {
+  // Create a polyline with a specified color (e.g., RED)
+  graphics::Polyline2D polyline(raylib::RED);
+  aContext->BeginDrawing();
+  // Add some points to the polyline
+  polyline.AddPoint({1.0f, 15.0f});
+  polyline.AddPoint({2.0f, 25.0f});
+  polyline.AddPoint({30.0f, 2.0f});
+  polyline.AddPoint({40.0f, 35.0f});
+
+  // Draw the polyline
+  polyline.Draw();
+  aContext->EndDrawing();
+  // For debugging purposes, print the number of points in the polyline
+  std::cout << "Rendering frame... Number of points in polyline: "
+            << polyline.GetPointCount() << std::endl;
+}
+
+    // Destructor
 GraphicsThread::~GraphicsThread() {
   // Stop the thread
+  Stop();
+}
+
+void GraphicsThread::SetTargetFramerate(unsigned int frameRate) {
+  mFrameRate = frameRate;
+}
+
+std::shared_ptr<ContextManager> GraphicsThread::GetGraphicsContext() {
+  return mContext;
+}
+
+void GraphicsThread::Stop() {
+  // Stop the thread and join it
   mRunning = false;
-  if (mThread.joinable()) {
-    mThread.join();
+  if (mThread->joinable()) {
+    mThread->join();
   }
+}
+
+void GraphicsThread::Start() {
+  mRunning = true;
+  mThread = std::make_unique<std::thread>(&GraphicsThread::RenderLoop, this);
 }
 
 // The rendering loop method
@@ -30,9 +63,14 @@ void GraphicsThread::RenderLoop() {
   while (mRunning) {
     auto frameStart = steady_clock::now();
 
-    // Call the rendering function
-    if (mRenderFunction) {
-      mRenderFunction();
+    if (true) {
+      try {
+        Render();
+      } catch (const std::exception& e) {
+        std::cerr << "Render function threw an exception: " << e.what()
+                  << std::endl;
+        mRunning = false;  // Stop the loop on exception
+      }
     }
 
     auto frameEnd = steady_clock::now();
@@ -44,3 +82,34 @@ void GraphicsThread::RenderLoop() {
     }
   }
 }
+
+
+void GraphicsThread::Render() {
+  if (!mContext) {
+    mContext = std::make_shared<ContextManager>();
+  }
+    if (mContext->isReady) {
+
+      mContext->BeginDrawing();
+
+      graphics::Polyline2D polyline(raylib::RED);
+      // Add some points to the polyline
+      polyline.AddPoint({1.0f, 15.0f});
+      polyline.AddPoint({2.0f, 25.0f});
+      polyline.AddPoint({30.0f, 2.0f});
+      polyline.AddPoint({40.0f, 35.0f});
+
+      // Draw the polyline
+      polyline.Draw();
+      mContext->EndDrawing();
+
+      // For debugging purposes, print the number of points in the polyline
+      std::cout << "Rendering frame... Number of points in polyline: "
+                << polyline.GetPointCount() << std::endl;
+    } else {
+      std::cerr << "Error: Graphics context is not initialized." << std::endl;
+
+    }
+  }
+
+}  // namespace graphics

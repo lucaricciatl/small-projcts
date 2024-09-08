@@ -4,20 +4,22 @@
 #include <functional>
 #include <iostream>
 #include <thread>
+#include "windowManager.hpp"
 
-
+namespace graphics{
 class GraphicsThread {
  public:
-  GraphicsThread(std::function<void()> renderFunction,
-                 unsigned int frameRate = 60);
   ~GraphicsThread();
   void RenderLoop();
-  // Prevent copy construction and assignment
-  GraphicsThread(const GraphicsThread&) = delete;
-  GraphicsThread& operator=(const GraphicsThread&) = delete;
-
-  std::function<void()> mRenderFunction;
+  void SetTargetFramerate(unsigned int frameRate);
+  std::shared_ptr<ContextManager> GetGraphicsContext();
+  void Render();
+  void Start();
+  void Stop();
   std::atomic<bool> mRunning;
   unsigned int mFrameRate;
-  std::thread mThread;
+  std::unique_ptr<std::thread> mThread;
+  std::shared_ptr<ContextManager> mContext;
+
 };
+}

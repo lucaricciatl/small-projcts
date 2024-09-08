@@ -8,37 +8,49 @@ static constexpr int defaultWidth = 680;
 static constexpr const char* defaultTitle = "Window";
 }  // namespace
 
-WindowManager::WindowManager(int width = defaultWidth,
-                             int height = defaultHeight,
-                             const char* title = defaultTitle)
-    : windowWidth(width), windowHeight(height), windowTitle(title) {
-  InitWindowManager();
-}
+namespace graphics {
 
-WindowManager::~WindowManager() { CloseWindow(); }
 
-void WindowManager::InitWindowManager() {
-  InitWindow(windowWidth, windowHeight, windowTitle);
-  SetTargetFPS(60);
-}
+  ContextManager::ContextManager(){
+    windowWidth = defaultWidth;
+    windowHeight = defaultHeight;
+    windowTitle = defaultTitle;
+    InitWindowManager();
+  }
 
-void WindowManager::SetTitle(const char* title) {
-  SetWindowTitle(title);
-  windowTitle = title;
-}
+    ContextManager::ContextManager(int aWindowWidth, int aWindowHeight,
+                                 const char* aWindowTitle) {
+    windowWidth = aWindowWidth;
+      windowHeight = aWindowHeight;
+    windowTitle = aWindowTitle;
+    InitWindowManager();
+  }
 
-void WindowManager::SetSize(int width, int height) {
-  SetWindowSize(width, height);
-  windowWidth = width;
-  windowHeight = height;
-}
+  ContextManager::~ContextManager() { raylib::CloseWindow(); }
 
-int WindowManager::GetWidth() const { return windowWidth; }
+  void ContextManager::InitWindowManager() {
+    raylib::InitWindow(windowWidth, windowHeight, windowTitle);
+    isReady = true;
+  }
 
-int WindowManager::GetHeight() const { return windowHeight; }
+  void ContextManager::SetTitle(const char* title) {
+    raylib::SetWindowTitle(title);
+    windowTitle = title;
+  }
 
-void WindowManager::SetTargetFPS(int fps) { ::SetTargetFPS(fps); }
+  void ContextManager::SetSize(int width, int height) {
+    raylib::SetWindowSize(width, height);
+    windowWidth = width;
+    windowHeight = height;
+  }
 
-void WindowManager::BeginDrawing() const { BeginDrawing(); }
+  int ContextManager::GetWidth() const { return windowWidth; }
 
-void WindowManager::EndDrawing() const { EndDrawing(); }
+  int ContextManager::GetHeight() const { return windowHeight; }
+
+  void ContextManager::BeginDrawing() const {
+    raylib::BeginDrawing();
+  }
+
+  void ContextManager::EndDrawing() const { raylib::EndDrawing(); }
+  }
