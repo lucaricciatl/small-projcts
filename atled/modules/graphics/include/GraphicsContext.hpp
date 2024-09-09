@@ -1,14 +1,13 @@
 #pragma once
-#include "raylib.h"
-
+#include "raylib-cpp.hpp"
 
 namespace graphics {
-class ContextManager {
+class GraphicsContext {
  public:
-  ContextManager();
-  ContextManager(int aWindowWidth, int aWindowHeight,
+  GraphicsContext();
+  GraphicsContext(int aWindowWidth, int aWindowHeight,
                                  const char* aWindowTitle); 
-  ~ContextManager();
+  ~GraphicsContext();
 
   void InitWindowManager();
   void SetTitle(const char* title);
@@ -16,9 +15,9 @@ class ContextManager {
   int GetWidth() const;
   int GetHeight() const;
   void SetTargetFPS(int fps);
-  void BeginDrawing() const;
-  void EndDrawing() const;
-  
+  void Begin() const;
+  void End() const;
+  void Clear();
   bool isReady;
 
  private:

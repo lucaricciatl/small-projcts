@@ -4,22 +4,27 @@
 #include <functional>
 #include <iostream>
 #include <thread>
-#include "windowManager.hpp"
+#include "GraphicsContext.hpp"
 
 namespace graphics{
-class GraphicsThread {
+class GraphicsManager {
  public:
-  ~GraphicsThread();
+  ~GraphicsManager();
   void RenderLoop();
   void SetTargetFramerate(unsigned int frameRate);
-  std::shared_ptr<ContextManager> GetGraphicsContext();
+  std::shared_ptr<GraphicsContext> GetGraphicsContext();
+
   void Render();
   void Start();
   void Stop();
+
+
   std::atomic<bool> mRunning;
   unsigned int mFrameRate;
+  std::shared_ptr<GraphicsContext> mContext;
+
+  private:
   std::unique_ptr<std::thread> mThread;
-  std::shared_ptr<ContextManager> mContext;
 
 };
 }

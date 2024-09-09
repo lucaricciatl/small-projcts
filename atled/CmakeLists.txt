@@ -16,6 +16,7 @@ add_executable(atled src/main.cpp)
 target_link_libraries(atled graphics)
 
 add_subdirectory(modules)
+
 # Add additional platform-specific libraries (for Linux)
 if (UNIX)
     target_link_libraries(atled m pthread dl rt X11)

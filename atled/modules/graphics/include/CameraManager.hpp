@@ -1,6 +1,6 @@
 #pragma once
 
-#include "raylib.h"
+#include "raylib-cpp.hpp"
 #include <vector>
 
 namespace graphics {
@@ -26,7 +26,7 @@ namespace graphics {
     void DrawGrid(int slices = 10, float spacing = 1.0f);
 
    private:
-    Camera camera;  // The Raylib camera object
+    raylib::Camera camera;  // The Raylib camera object
   };
 
 }

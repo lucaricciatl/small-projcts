@@ -1,26 +1,18 @@
-#include "windowManager.hpp"
-#include "GraphicsThread.hpp"
+#include "GraphicsContext.hpp"
+#include "GraphicsManager.hpp"
+#include "Polyline2D.hpp"
 
-
-void MyRenderFunction() {
-  // Your rendering code here
-  std::cout << "Rendering frame..." << std::endl;
-}
 
 int main() {
-  // Create a WindowManager instance
-  WindowManager window(800, 600, "Raylib Window");
+  // Initialize the GraphicsManager
+  auto graphicsthread = std::make_shared<graphics::GraphicsManager>();
+
+  // Set the context and render function
+  graphicsthread->SetTargetFramerate(60);
+  graphicsthread->Start();
   // Main game loop
-  while (!WindowShouldClose()) {
-    // Draw
-    BeginDrawing();
-    GraphicsThread graphicsThread(MyRenderFunction, 30);
-
-    // Let the graphics thread run for a while
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-    ClearBackground(RAYWHITE);
-
-    EndDrawing();
+  while (true) {
+    // depending on your GraphicsManager class design.
   }
 
   return 0;

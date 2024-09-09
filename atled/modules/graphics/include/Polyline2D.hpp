@@ -1,14 +1,13 @@
 #pragma once 
 
 #include <vector>
-
-#include "raylib.h"  // Include raylib header for Color and DrawLine functions
+#include "raylib-cpp.hpp" // Include raylib header for Color and DrawLine functions
 
 namespace graphics {
 class Polyline2D {
  public:
   // Constructor to initialize an empty Polyline2D with a specified color
-  Polyline2D(raylib::Color color);
+  Polyline2D(Color color);
 
   // Add a point to the Polyline2D
   void AddPoint(std::vector<float> point);
@@ -23,11 +22,11 @@ class Polyline2D {
   std::vector<float> GetPoint(size_t index) const;
 
   // Change the color of the Polyline2D
-  void SetColor(raylib::Color newColor);
+  void SetColor(Color newColor);
 
  private:
   std::vector<std::vector<float>>
       points;           // Vector of points representing the Polyline2D
-  raylib::Color color;  // Color of the Polyline2D
+  Color color;  // Color of the Polyline2D
 };
 }  // namespace graphics
