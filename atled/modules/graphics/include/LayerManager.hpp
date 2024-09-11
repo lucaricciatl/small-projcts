@@ -23,6 +23,6 @@ class LayerManager {
  private:
 
   bool mIdReassign;
-  std::vector<Layer> layers;
+  std::vector<Layer>  layers;
 };
 }  // namespace graphics

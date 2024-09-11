@@ -59,7 +59,7 @@ target_include_directories(graphics PUBLIC
     ${raylib_SOURCE_DIR}/include
 )
 
-target_include_directories(graphics PRIVATE
+target_include_directories(graphics PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include/private
 )
 

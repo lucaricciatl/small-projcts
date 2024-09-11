@@ -19,7 +19,8 @@ LayerId CreateNewId(std::vector<LayerId> ids) {
 };
 }  // namespace
 
-LayerManager::LayerManager() { EnableIdReassign(true); }
+LayerManager::LayerManager() {
+    EnableIdReassign(true); }
 
 void LayerManager::EnableIdReassign(bool aIdReassign) {
   mIdReassign = aIdReassign;
@@ -37,11 +38,11 @@ void LayerManager::AddLayer(const LayerId& id) {
   if (mIdReassign && idAlreadyexists) {
     LayerId newid = CreateNewId(GetLayersIds());
   } else {
-    return;
+    // If the ID is not present, add the new layer
+    Layer layer(newid);
+    layers.push_back(layer);
   }
-  // If the ID is not present, add the new layer
-  Layer layer(newid);
-  layers.push_back(layer);
+
 }
 
 Layer* LayerManager::GetLayerById(const LayerId& id) {

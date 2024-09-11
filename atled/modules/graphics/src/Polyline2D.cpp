@@ -2,6 +2,7 @@
 #include "raylib.h"
 
 namespace graphics {
+
 // Constructor to initialize an empty polyline with a specified color
 Polyline2D::Polyline2D(Color color) : color(color) {}
 

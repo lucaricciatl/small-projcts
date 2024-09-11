@@ -9,11 +9,12 @@
 namespace graphics{
 class GraphicsManager {
  public:
+  GraphicsManager();
   ~GraphicsManager();
   void RenderLoop();
   void SetTargetFramerate(unsigned int frameRate);
   std::shared_ptr<GraphicsContext> GetGraphicsContext();
-
+	
   void Render();
   void Start();
   void Stop();
@@ -21,10 +22,11 @@ class GraphicsManager {
 
   std::atomic<bool> mRunning;
   unsigned int mFrameRate;
-  std::shared_ptr<GraphicsContext> mContext;
+  
 
   private:
   std::unique_ptr<std::thread> mThread;
+  std::shared_ptr<GraphicsContext> mContext;
 
 };
 }

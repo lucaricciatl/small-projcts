@@ -1,7 +1,11 @@
 #include "Color.hpp"
 
+namespace graphics {
+namespace colors {
+
 // Constructor
-Color::Color(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
+Color::Color(unsigned char red, unsigned char green, unsigned char blue,
+             unsigned char alpha)
     : r(red), g(green), b(blue), a(alpha) {}
 
 // Setters
@@ -18,9 +22,15 @@ unsigned char Color::getAlpha() const { return a; }
 
 // Utility function: blend with another color
 Color Color::blend(const Color& other, float alpha) const {
-    unsigned char newR = static_cast<unsigned char>(r * (1 - alpha) + other.r * alpha);
-    unsigned char newG = static_cast<unsigned char>(g * (1 - alpha) + other.g * alpha);
-    unsigned char newB = static_cast<unsigned char>(b * (1 - alpha) + other.b * alpha);
-    unsigned char newA = static_cast<unsigned char>(a * (1 - alpha) + other.a * alpha);
-    return Color(newR, newG, newB, newA);
+  unsigned char newR =
+      static_cast<unsigned char>(r * (1 - alpha) + other.r * alpha);
+  unsigned char newG =
+      static_cast<unsigned char>(g * (1 - alpha) + other.g * alpha);
+  unsigned char newB =
+      static_cast<unsigned char>(b * (1 - alpha) + other.b * alpha);
+  unsigned char newA =
+      static_cast<unsigned char>(a * (1 - alpha) + other.a * alpha);
+  return Color(newR, newG, newB, newA);
 }
+}  // namespace colors
+}  // namespace graphics

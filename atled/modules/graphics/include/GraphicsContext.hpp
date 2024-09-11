@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib-cpp.hpp"
+#include "LayerManager.hpp"
 
 namespace graphics {
 class GraphicsContext {
@@ -19,10 +20,12 @@ class GraphicsContext {
   void End() const;
   void Clear();
   bool isReady;
-
+  LayerManager mLayerManager;
  private:
   int windowWidth;
   int windowHeight;
   const char* windowTitle;
+
+
 };
 }  // namespace graphics

@@ -9,12 +9,15 @@ typedef int LayerId;
 		
 class Layer {
  public:
+  Layer();
+  void Initialize();
+  ~Layer();
   Layer(const LayerId& id);
-  Layer& operator=(const Layer&);
   LayerId GetId() const;
   void SetId(LayerId id );
+  std::shared_ptr<BuffersManager> GetBufferManager();
  private:
   LayerId id;
-  std::shared_ptr<BuffersManager> mBuffer;
+  std::shared_ptr<BuffersManager> mBufferManager;
 };
 }  // namespace graphics

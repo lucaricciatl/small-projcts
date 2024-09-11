@@ -1,7 +1,8 @@
 #pragma once
-
 #include "PointBuffer2D.hpp"
 
+
+namespace graphics {
 // Constructor
 PointBuffer2D::PointBuffer2D() {}
 
@@ -36,6 +37,7 @@ size_t PointBuffer2D::getSize() const { return buffer.size(); }
 // Utility function to check if the buffer is empty
 bool PointBuffer2D::isEmpty() const { return buffer.empty(); }
 
+std::vector<Point2D> PointBuffer2D::GetBuffer() { return buffer; };
 
-std::vector<Point2D> PointBuffer2D::GetBuffer() { return buffer;
-  };
+void PointBuffer2D::SetColor(colors::Color newColor) { color = newColor; }
+}  // namespace graphics

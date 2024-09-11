@@ -13,7 +13,12 @@ constexpr unsigned int defaultFramerate = 30;
 
 namespace graphics {
 
-// Destructor
+GraphicsManager::GraphicsManager(){
+  mContext = std::make_shared<GraphicsContext>();
+  mThread = std::make_unique<std::thread>();
+
+};
+    // Destructor
 GraphicsManager::~GraphicsManager() {
   // Stop the thread
   Stop();
@@ -75,7 +80,6 @@ void GraphicsManager::Render() {
   if (mContext->isReady) {
     mContext->Begin();
     mContext->Clear();
-
     mContext->End();
 
   } else {
