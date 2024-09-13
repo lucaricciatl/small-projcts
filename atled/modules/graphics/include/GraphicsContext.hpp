@@ -16,8 +16,8 @@ class GraphicsContext {
   int GetWidth() const;
   int GetHeight() const;
   void SetTargetFPS(int fps);
-  void Begin() const;
-  void End() const;
+  void Begin() const ;
+  void End() const ;
   void Clear();
   bool isReady;
   LayerManager mLayerManager;

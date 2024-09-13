@@ -15,8 +15,8 @@ class PointBuffer2D {
  public:
   PointBuffer2D();
   ~PointBuffer2D();
-  void addPoint(float x, float y);
-  void SetColor(colors::Color newColor);
+  void addPoint(int x, int y);
+  void SetColor(Color newColor);
   Point2D getPoint(size_t index) const;
 
   std::vector<Point2D> GetBuffer();
@@ -25,9 +25,10 @@ class PointBuffer2D {
   void clearBuffer();
   size_t getSize() const;
   bool isEmpty() const;
+  void DrawBuffer();
 
  private:
-  colors::Color color;
+  Color color;
   std::vector<Point2D> buffer;  // A dynamic list of 2D points
 };
 

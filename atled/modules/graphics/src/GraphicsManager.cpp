@@ -13,12 +13,11 @@ constexpr unsigned int defaultFramerate = 30;
 
 namespace graphics {
 
-GraphicsManager::GraphicsManager(){
+GraphicsManager::GraphicsManager() {
   mContext = std::make_shared<GraphicsContext>();
   mThread = std::make_unique<std::thread>();
-
 };
-    // Destructor
+// Destructor
 GraphicsManager::~GraphicsManager() {
   // Stop the thread
   Stop();
@@ -42,7 +41,8 @@ void GraphicsManager::Stop() {
 
 void GraphicsManager::Start() {
   mRunning = true;
-  mThread = std::make_unique<std::thread>(&GraphicsManager::RenderLoop, this);
+  RenderLoop();
+  //mThread = std::make_unique<std::thread>(&GraphicsManager::RenderLoop, this);
 }
 
 // The rendering loop method
@@ -77,15 +77,31 @@ void GraphicsManager::Render() {
   if (!mContext) {
     mContext = std::make_shared<GraphicsContext>();
   }
+
   if (mContext->isReady) {
     mContext->Begin();
     mContext->Clear();
+    mContext->mLayerManager.AddLayer(1);
+    auto layer = mContext->mLayerManager.GetLayerById(1);
+    auto bm = layer->GetBufferManager();
+    auto pb = bm->GetLineBuffer();
+    // Create a vector of 10 points
+    std::vector<Point2D> points;
+    for (int i = 0; i < 100; ++i) {
+      points.emplace_back(static_cast<float>(200+100*sin(i*0.1)),
+                          static_cast<float>(200+100*cos(i*0.1)));  // Example points
+    }
+
+    // Use SetBuffer to set the 10 points to pd
+    pb->SetBuffer(points);
+    pb->LoadBuffer();
+    pb->DrawBuffer();
+
     mContext->End();
 
   } else {
     std::cerr << "Error: Graphics context is not initialized." << std::endl;
   }
 }
-
 
 }  // namespace graphics

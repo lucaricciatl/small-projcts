@@ -50,6 +50,6 @@ int GraphicsContext::GetHeight() const { return windowHeight; }
 void GraphicsContext::Begin() const { BeginDrawing(); }
 void GraphicsContext::End() const { EndDrawing(); }
 
-void GraphicsContext::Clear() { ClearBackground(BLACK); };
+void GraphicsContext::Clear() {  };
 
 }  // namespace graphics
