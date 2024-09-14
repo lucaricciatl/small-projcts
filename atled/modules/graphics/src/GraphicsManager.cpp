@@ -16,6 +16,7 @@ namespace graphics {
 GraphicsManager::GraphicsManager() {
   mContext = std::make_shared<GraphicsContext>();
   mThread = std::make_unique<std::thread>();
+  //mCamera = std::make_shared<CameraManager>();
 };
 // Destructor
 GraphicsManager::~GraphicsManager() {
@@ -42,20 +43,53 @@ void GraphicsManager::Stop() {
 void GraphicsManager::Start() {
   mRunning = true;
   RenderLoop();
-  //mThread = std::make_unique<std::thread>(&GraphicsManager::RenderLoop, this);
+  //CameraLoop();
+
+}
+
+
+void GraphicsManager::CameraStep() {
+  using namespace std::chrono;
+  auto frameDuration =
+      milliseconds(1000 / mFrameRate);  // Same frame duration as RenderLoop
+
+
+    auto frameStart = steady_clock::now();
+
+    // Update camera here
+    if (mCamera) {
+      try {
+        mCamera->Update();  // Assuming CameraManager has an Update function
+                            // that updates camera position, orientation, etc.
+      } catch (const std::exception& e) {
+        std::cerr << "Camera update threw an exception: " << e.what()
+                  << std::endl;
+        mRunning = false;  // Stop the loop on exception
+      }
+    }
+
+    auto frameEnd = steady_clock::now();
+    auto elapsed = duration_cast<milliseconds>(frameEnd - frameStart);
+    auto sleepTime = frameDuration - elapsed;
+
+    // Sleep for the remaining time in the frame if needed
+    if (sleepTime > milliseconds(0)) {
+      std::this_thread::sleep_for(sleepTime);
+    }
+  
 }
 
 // The rendering loop method
 void GraphicsManager::RenderLoop() {
   using namespace std::chrono;
   auto frameDuration = milliseconds(1000 / mFrameRate);
-
   while (mRunning) {
     auto frameStart = steady_clock::now();
 
     if (true) {
       try {
         Render();
+
       } catch (const std::exception& e) {
         std::cerr << "Render function threw an exception: " << e.what()
                   << std::endl;
@@ -80,22 +114,23 @@ void GraphicsManager::Render() {
 
   if (mContext->isReady) {
     mContext->Begin();
+
     mContext->Clear();
     mContext->mLayerManager.AddLayer(1);
     auto layer = mContext->mLayerManager.GetLayerById(1);
     auto bm = layer->GetBufferManager();
-    auto pb = bm->GetLineBuffer();
+    auto lb = bm->GetLineBuffer();
+    auto pb = bm->GetPointBuffer();
     // Create a vector of 10 points
-    std::vector<Point2D> points;
-    for (int i = 0; i < 100; ++i) {
-      points.emplace_back(static_cast<float>(200+100*sin(i*0.1)),
-                          static_cast<float>(200+100*cos(i*0.1)));  // Example points
+    std::vector<ColoredPoint2D> points;
+    for (int i = 0; i < 1000; ++i) {
+      points.emplace_back(static_cast<int>(200+100*sin(i*0.01)),
+                          static_cast<int>(200+100*cos(i*0.01)),raylib::RED);  // Example points
     }
 
     // Use SetBuffer to set the 10 points to pd
-    pb->SetBuffer(points);
-    pb->LoadBuffer();
-    pb->DrawBuffer();
+    lb->SetBuffer(points);
+    lb->DrawBuffer();
 
     mContext->End();
 

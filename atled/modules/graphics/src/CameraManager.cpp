@@ -1,10 +1,10 @@
 
 #include "CameraManager.hpp"
+#include "raylib.h"
 #include <vector>
 
 namespace graphics {
 
-    using namespace raylib;
 // Constructor implementation
 CameraManager::CameraManager(const std::vector<float>& position,
                              const std::vector<float>& target,

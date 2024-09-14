@@ -3,54 +3,61 @@
 
 namespace graphics {
 
-LineBuffer2D::LineBuffer2D() : mLine(RED) {
+
+LineBuffer2D::LineBuffer2D() : mLine() {
   // Additional initialization if necessary
 }
-LineBuffer2D::~LineBuffer2D() {}
 
-void LineBuffer2D::addPoint(float x, float y) { mBuffer.emplace_back(x, y); }
+LineBuffer2D::~LineBuffer2D() = default;
 
-Point2D LineBuffer2D::getPoint(size_t index) const {
-  if (index < mBuffer.size()) {
-    return mBuffer[index];
+void LineBuffer2D::AddPoint(float x, float y) { mBuffer.emplace_back(x, y); }
+
+ColoredPoint2D LineBuffer2D::GetPoint(size_t aIndex) const {
+  if (aIndex < mBuffer.size()) {
+    return mBuffer[aIndex];
   }
-  return Point2D();
+  return ColoredPoint2D();  // Handle invalid index case, could be enhanced
+                            // based on
+                     // your logic.
 }
 
-void LineBuffer2D::removePoint(size_t index) {
-  if (index < mBuffer.size()) {
-    mBuffer.erase(mBuffer.begin() + index);
+void LineBuffer2D::RemovePoint(size_t aIndex) {
+  if (aIndex < mBuffer.size()) {
+    mBuffer.erase(mBuffer.begin() + aIndex);
   }
 }
 
-void LineBuffer2D::clearBuffer() { mBuffer.clear(); }
+void LineBuffer2D::ClearBuffer() { mBuffer.clear(); }
 
-size_t LineBuffer2D::getSize() const { return mBuffer.size(); }
+size_t LineBuffer2D::GetSize() const { return mBuffer.size(); }
 
-bool LineBuffer2D::isEmpty() const { return mBuffer.empty(); }
+bool LineBuffer2D::IsEmpty() const { return mBuffer.empty(); }
 
-std::vector<Point2D> LineBuffer2D::GetBuffer() { return mBuffer; };
+const std::vector<ColoredPoint2D>& LineBuffer2D::GetBuffer() const {
+  return mBuffer;
+}
 
-void LineBuffer2D::SetBuffer(std::vector<Point2D> aBuffer) { mBuffer = aBuffer; };
-
-void LineBuffer2D::SetColor(Color newColor) { color = newColor; }
+void LineBuffer2D::SetBuffer(std::vector<ColoredPoint2D> aBuffer) {
+  mBuffer = std::move(aBuffer);  // Move semantics to avoid copying
+}
 
 void LineBuffer2D::LoadBuffer() {
-  for (auto p : mBuffer) {
-    mLine.AddPoint({
-        p.x,p.y
-    });
+  for (const auto& point : mBuffer) {
+    mLine.AddPoint(point);
   }
-};
-
-// Implementation of AppendToBuffer(std::vector<Point2D>)
-void LineBuffer2D::AppendToBuffer(std::vector<Point2D> points) {
-  mBuffer.insert(mBuffer.end(), points.begin(), points.end());
 }
 
-// Implementation of AppendToBuffer(Point2D)
-void LineBuffer2D::AppendToBuffer(Point2D point) { mBuffer.push_back(point); }
+void LineBuffer2D::AppendToBuffer(const std::vector<ColoredPoint2D>& aPoints) {
+  mBuffer.insert(mBuffer.end(), aPoints.begin(), aPoints.end());
+}
 
-void LineBuffer2D::DrawBuffer() { mLine.Draw(); };
+void LineBuffer2D::AppendToBuffer(const ColoredPoint2D& aPoint) {
+  mBuffer.push_back(aPoint);
+}
 
+void LineBuffer2D::DrawBuffer() { 
+    mLine.AddPoints(mBuffer);
+    mLine.Draw(); 
+    mLine.Clear();
+}
 }  // namespace graphics

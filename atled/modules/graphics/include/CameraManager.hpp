@@ -9,9 +9,9 @@ namespace graphics {
   class CameraManager {
    public:
     // Constructor to initialize the camera
-    CameraManager(const std::vector<float>& position,
-                  const std::vector<float>& target,
-                  const std::vector<float>& up, float fovy = 45.0f);
+    CameraManager(const std::vector<float>& position = {0,10,10},
+                  const std::vector<float>& target = {0,0,0},
+                  const std::vector<float>& up = {0,0,1}, float fovy = 45.0f);
 
     // Update camera position and target based on user input
     void Update(float moveSpeed = 0.2f, float turnSpeed = 0.05f);

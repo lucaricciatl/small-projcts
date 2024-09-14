@@ -16,6 +16,7 @@ add_library(graphics
     src/LineBuffer2D.cpp
     src/LineBuffer3D.cpp
     src/Layer.cpp
+    src/Pixel.cpp
 
 )
 

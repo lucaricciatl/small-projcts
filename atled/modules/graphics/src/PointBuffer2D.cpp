@@ -11,7 +11,7 @@ PointBuffer2D::~PointBuffer2D() {}
 
 void PointBuffer2D::addPoint(int x, int y) { buffer.emplace_back(x, y); }
 
-Point2D PointBuffer2D::getPoint(size_t index) const {
+ColoredPoint2D PointBuffer2D::getPoint(size_t index) const {
   if (index < buffer.size()) {
     return buffer[index];
   }
@@ -30,12 +30,17 @@ size_t PointBuffer2D::getSize() const { return buffer.size(); }
 
 bool PointBuffer2D::isEmpty() const { return buffer.empty(); }
 
-std::vector<Point2D> PointBuffer2D::GetBuffer() { return buffer; };
+std::vector<ColoredPoint2D> PointBuffer2D::GetBuffer() { return buffer; };
 
 void PointBuffer2D::SetColor(Color newColor) { color = newColor; }
 
-void PointBuffer2D::DrawBuffer(
-) {
+void PointBuffer2D::SetBuffer(std::vector<ColoredPoint2D> aBuffer) {
+  buffer = aBuffer;
+};
 
+void PointBuffer2D::DrawBuffer(){
+  for (auto p : buffer) {
+    DrawPixel(p.x, p.y,p.color);
+  }
 };
 }  // namespace graphics

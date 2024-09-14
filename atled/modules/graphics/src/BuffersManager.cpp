@@ -1,7 +1,8 @@
 #include "BuffersManager.hpp"
-
 #include "LineBuffer2D.hpp"
 #include "PointBuffer2D.hpp"
+
+
 namespace graphics {
 BuffersManager::BuffersManager() {
   mPointBuffer = std::make_shared<PointBuffer2D>();

@@ -4,36 +4,44 @@
 
 namespace graphics {
 
-// Constructor to initialize an empty polyline with a specified color
-Polyline2D::Polyline2D(Color color) : color(color) {}
+void Polyline2D::AddPoint(ColoredPoint2D aPoint) { mPoints.push_back(aPoint); }
 
-
-// Add a point to the polyline
-void Polyline2D::AddPoint(Point2D point) { points.push_back(point); }
-
-// Draw the polyline
+void Polyline2D::AddPoints(const std::vector<ColoredPoint2D>& aPoints) {
+  mPoints.insert(mPoints.end(), aPoints.begin(), aPoints.end());
+}
 void Polyline2D::Draw() const {
-  if (points.size() < 2) return;  // Need at least 2 points to draw a line
-
-  for (size_t i = 1; i < points.size() - 1; ++i) {
-    DrawLine(points[i].x, points[i].y, points[i + 1].x,
-                     points[i + 1].y, color);
+  // Ensure we have at least two points to draw a polyline
+  if (mPoints.size() < 2) {
+    return;
   }
-  points.clear();
+
+  // Iterate through the points and draw lines between consecutive points
+  for (size_t i = 0; i < mPoints.size() - 1; ++i) {
+    // Get the start and end points for the line
+    int startPosX = mPoints[i].x;
+    int startPosY = mPoints[i].y;
+    int endPosX = mPoints[i + 1].x;
+    int endPosY = mPoints[i + 1].y;
+
+    // Call the DrawLine function with the start and end points
+    // Assuming the color is predefined or set somewhere else
+    if (i ==mPoints.size()-1){
+      DrawLine(startPosX, startPosY, endPosX, endPosY, BLANK);
+      return;
+    };
+    DrawLine(startPosX, startPosY, endPosX, endPosY, mPoints[i].color);
+  }
 }
 
-// Get the number of points in the polyline
-size_t Polyline2D::GetPointCount() const { return points.size(); }
+void Polyline2D::Clear() { mPoints.clear(); }
+size_t Polyline2D::GetPointCount() const { return mPoints.size(); }
 
-// Get a point by index
-Point2D Polyline2D::GetPoint(size_t index) const {
-  if (index < points.size()) {
-    return points[index];
+ColoredPoint2D Polyline2D::GetPoint(size_t aIndex) const {
+  if (aIndex < mPoints.size()) {
+    return mPoints[aIndex];
   }
-  return {0, 0};  // Return a default value if index is out of bounds
+  // Handle invalid index, possibly throw an exception or return a default
+  // Point2D
+  return ColoredPoint2D();
 }
-
-// Change the color of the polyline
-void Polyline2D::SetColor(Color newColor) { color = newColor; }
-
 }  // namespace graphics

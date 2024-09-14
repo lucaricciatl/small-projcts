@@ -7,6 +7,9 @@ int main() {
   // Initialize the GraphicsManager
   auto graphicsthread = std::make_shared<graphics::GraphicsManager>();
 
+
+
+
   graphicsthread->Start();
   // Main game loop
   while (true) {

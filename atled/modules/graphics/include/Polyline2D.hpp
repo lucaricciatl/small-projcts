@@ -7,21 +7,15 @@
 namespace graphics {
 class Polyline2D {
  public:
-  Polyline2D(Color color);
-
-  void AddPoint(Point2D point);
-
+  void AddPoint(ColoredPoint2D point);
+  void AddPoints(const std::vector<ColoredPoint2D>& aPoints);
   void Draw() const;
-
+  void Clear();
   size_t GetPointCount() const;
-
-  Point2D GetPoint(size_t index) const;
-
-  void SetColor(Color newColor);
+  ColoredPoint2D GetPoint(size_t aIndex) const;
+  void SetColor(Color aNewColor);
 
  private:
-  mutable std::vector<Point2D>
-      points;           
-  Color color;  
+  std::vector<ColoredPoint2D> mPoints;
 };
 }  // namespace graphics

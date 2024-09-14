@@ -7,30 +7,38 @@
 
 namespace graphics {
 
+
 class LineBuffer2D {
  public:
+  // Constructor and Destructor
   LineBuffer2D();
   ~LineBuffer2D();
-  void addPoint(float x, float y);
-  void SetColor(Color newColor);
-  Point2D getPoint(size_t index) const;
 
-  std::vector<Point2D> GetBuffer();
-  void AppendToBuffer(std::vector<Point2D>);
-  void AppendToBuffer(Point2D);
-  void SetBuffer(std::vector<Point2D> aBuffer);
+  // Buffer manipulation
+  void AddPoint(float x, float y);
+  ColoredPoint2D GetPoint(size_t aIndex) const;
+  void RemovePoint(size_t aIndex);
+  void ClearBuffer();
 
-  void removePoint(size_t index);
-  void clearBuffer();
-  size_t getSize() const;
-  bool isEmpty() const;
+  // Buffer information
+  size_t GetSize() const;
+  bool IsEmpty() const;
+  const std::vector<ColoredPoint2D>& GetBuffer() const;
+
+  // Setters and Loaders
+  void SetBuffer(std::vector<ColoredPoint2D> aBuffer);
+  void SetColor(Color aNewColor);
   void LoadBuffer();
+
+  // Append Points to Buffer
+  void AppendToBuffer(const std::vector<ColoredPoint2D>& aPoints);
+  void AppendToBuffer(const ColoredPoint2D& aPoint);
+
+  // Draw the buffer
   void DrawBuffer();
 
  private:
-  Color color;
-  std::vector<Point2D> mBuffer;  // A dynamic list of 2D points
-  Polyline2D mLine;
+  std::vector<ColoredPoint2D> mBuffer;  // Stores the points in the line buffer
+  Polyline2D mLine;              // Line used to draw the buffer
 };
-
 }  // namespace graphics
