@@ -27,7 +27,6 @@ class LineBuffer2D {
 
   // Setters and Loaders
   void SetBuffer(std::vector<ColoredPoint2D> aBuffer);
-  void SetColor(Color aNewColor);
   void LoadBuffer();
 
   // Append Points to Buffer

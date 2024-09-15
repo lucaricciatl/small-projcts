@@ -13,7 +13,6 @@ class Polyline2D {
   void Clear();
   size_t GetPointCount() const;
   ColoredPoint2D GetPoint(size_t aIndex) const;
-  void SetColor(Color aNewColor);
 
  private:
   std::vector<ColoredPoint2D> mPoints;

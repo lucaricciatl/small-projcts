@@ -32,8 +32,6 @@ bool PointBuffer2D::isEmpty() const { return buffer.empty(); }
 
 std::vector<ColoredPoint2D> PointBuffer2D::GetBuffer() { return buffer; };
 
-void PointBuffer2D::SetColor(Color newColor) { color = newColor; }
-
 void PointBuffer2D::SetBuffer(std::vector<ColoredPoint2D> aBuffer) {
   buffer = aBuffer;
 };

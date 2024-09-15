@@ -3,10 +3,9 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
-
 #include "GraphicsContext.hpp"
 #include "PolyLine2D.hpp"
-
+#include <memory>
 namespace {
 constexpr unsigned int defaultFramerate = 30;
 }
@@ -16,13 +15,19 @@ namespace graphics {
 GraphicsManager::GraphicsManager() {
   mContext = std::make_shared<GraphicsContext>();
   mThread = std::make_unique<std::thread>();
-  //mCamera = std::make_shared<CameraManager>();
 };
+
 // Destructor
 GraphicsManager::~GraphicsManager() {
   // Stop the thread
   Stop();
 }
+
+  void GraphicsManager::SetConfigs(GfxConfig aGfxConfigs){
+  mConfigs = std::make_shared<GfxConfig>(
+      aGfxConfigs);  // Create a shared pointer to a copy of aGfxConfigs
+};
+
 
 void GraphicsManager::SetTargetFramerate(unsigned int frameRate) {
   mFrameRate = frameRate;
@@ -41,8 +46,10 @@ void GraphicsManager::Stop() {
 }
 
 void GraphicsManager::Start() {
+  mContext->InitWindowManager(mConfigs->WindowConfig);
   mRunning = true;
   RenderLoop();
+
   //CameraLoop();
 
 }
@@ -108,14 +115,10 @@ void GraphicsManager::RenderLoop() {
 }
 
 void GraphicsManager::Render() {
-  if (!mContext) {
-    mContext = std::make_shared<GraphicsContext>();
-  }
 
   if (mContext->isReady) {
     mContext->Begin();
 
-    mContext->Clear();
     mContext->mLayerManager.AddLayer(1);
     auto layer = mContext->mLayerManager.GetLayerById(1);
     auto bm = layer->GetBufferManager();
@@ -131,7 +134,8 @@ void GraphicsManager::Render() {
     // Use SetBuffer to set the 10 points to pd
     lb->SetBuffer(points);
     lb->DrawBuffer();
-
+    auto col = raylib::Color(0, 0, 0, 0);
+    mContext->Clear(col);
     mContext->End();
 
   } else {

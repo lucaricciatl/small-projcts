@@ -25,10 +25,6 @@ void Polyline2D::Draw() const {
 
     // Call the DrawLine function with the start and end points
     // Assuming the color is predefined or set somewhere else
-    if (i ==mPoints.size()-1){
-      DrawLine(startPosX, startPosY, endPosX, endPosY, BLANK);
-      return;
-    };
     DrawLine(startPosX, startPosY, endPosX, endPosY, mPoints[i].color);
   }
 }

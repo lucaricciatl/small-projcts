@@ -13,14 +13,15 @@ struct Point2D {
 };
 
 struct ColoredPoint2D : Point2D {
-  Color color;
+  raylib::Color color;
 
   // Default constructor
-  ColoredPoint2D(float x_val = 0, float y_val = 0, Color clr = Color())
+  ColoredPoint2D(float x_val = 0, float y_val = 0,
+                 raylib::Color clr = raylib::Color())
       : Point2D(x_val, y_val), color(clr) {}
 
   // Constructor from Point2D
-  ColoredPoint2D(const Point2D& pt, Color clr = Color())
+  ColoredPoint2D(const Point2D& pt, raylib::Color clr = raylib::Color())
       : Point2D(pt), color(clr) {}
 };
 
@@ -30,7 +31,6 @@ class PointBuffer2D {
   PointBuffer2D();
   ~PointBuffer2D();
   void addPoint(int x, int y);
-  void SetColor(Color newColor);
   ColoredPoint2D getPoint(size_t index) const;
   std::vector<ColoredPoint2D> GetBuffer();
   void SetBuffer(std::vector<ColoredPoint2D> points);
@@ -42,7 +42,6 @@ class PointBuffer2D {
   void DrawBuffer();
 
  private:
-  Color color;
   std::vector<ColoredPoint2D> buffer;  // A dynamic list of 2D points
 };
 
